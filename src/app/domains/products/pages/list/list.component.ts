@@ -5,7 +5,6 @@ import {
   signal,
 } from '@angular/core';
 import { ProductComponent } from '../../components/product/product.component';
-import { HeaderComponent } from '@/shared/components/header/header.component';
 import { CommonModule } from '@angular/common';
 import { Product } from '@/shared/model/product.model';
 import { CartService } from '@/shared/services/cart.service';
@@ -15,7 +14,7 @@ import { ProductService } from '@/shared/services/product.service';
   selector: 'app-list',
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [CommonModule, ProductComponent, HeaderComponent],
+  imports: [CommonModule, ProductComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })
