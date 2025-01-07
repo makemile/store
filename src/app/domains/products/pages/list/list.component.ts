@@ -1,9 +1,15 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  signal,
+} from '@angular/core';
 import { ProductComponent } from '../../components/product/product.component';
-import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { HeaderComponent } from '@/shared/components/header/header.component';
 import { CommonModule } from '@angular/common';
-import { Product } from '../../../shared/model/product.model';
-import { CartService } from '../../../shared/services/cart.service';
+import { Product } from '@/shared/model/product.model';
+import { CartService } from '@/shared/services/cart.service';
+import { ProductService } from '@/shared/services/product.service';
 
 @Component({
   selector: 'app-list',
@@ -14,39 +20,23 @@ import { CartService } from '../../../shared/services/cart.service';
   styleUrl: './list.component.css',
 })
 export class ListComponent {
-    private cartService = inject(CartService);
   products = signal<Product[]>([]);
+  private cartService = inject(CartService);
+  private ProductService = inject(ProductService);
 
-  constructor() {
-    const initProducts: Product[] = [
-      {
-        id: Date.now(),
-        title: 'pepito',
-        price: 10,
-        image: 'https://picsum.photos/640/640?r=23',
+  ngOnInit() {
+    this.ProductService.getProducts().subscribe({
+      next: (products) => {
+        this.products.set(products);
       },
-      {
-        id: Date.now(),
-        title: 'pepito',
-        price: 10,
-        image: 'https://picsum.photos/640/640?r=23',
-      },
-      {
-        id: Date.now(),
-        title: 'pepito',
-        price: 10,
-        image: 'https://picsum.photos/640/640?r=23',
-      },
-      {
-        id: Date.now(),
-        title: 'pepito',
-        price: 10,
-        image: 'https://picsum.photos/640/640?r=23',
-      },
-    ];
-    this.products.set(initProducts);
+      error: () => {
+
+      }
+    });
+
   }
+
   addToCart(product: Product) {
-this.cartService.addToCart(product);
+    this.cartService.addToCart(product);
   }
 }
