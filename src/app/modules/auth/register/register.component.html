@@ -1,0 +1,28 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <app-form-input
+    formControlName="name"
+    label="name"
+    placeHolder="Ingresa tu nombre"
+    type="text"
+  />
+  <app-form-input
+    formControlName="email"
+    label="email"
+    placeHolder="Ingresa dirección de correo"
+    type="text"
+  />
+  <app-form-input
+    formControlName="password"
+    label="password"
+    placeHolder="Ingrese nueva contraseña"
+    type="text"
+    autocomplete="current-password"
+  />
+  <app-form-input
+  formControlName="avatar"
+  label="Avatar"
+  placeHolder="Ingresa URL del avatar"
+  type="text"
+/>
+  <button type="submit" [disabled]="registerForm.invalid">Submit</button>
+</form>

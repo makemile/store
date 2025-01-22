@@ -9,4 +9,6 @@ export class HighlightDirective {
   ngOnInit() {
     this.element.nativeElement.style.backgroundColor = 'red';
   };
+
+
 };

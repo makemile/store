@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, signal } from '@angular/core';
-import { ProductService } from '@/shared/services/product.service';
-import { Product } from '@/shared/model/product.model';
+import { ProductService } from 'src/app/shared/services/product.service';
+import { Product } from 'src/app/shared/model/product.model';
 
 @Component({
   selector: 'app-product-detail',
