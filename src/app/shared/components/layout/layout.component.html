@@ -1,1 +1,2 @@
-<div class="container mx-auto"><app-header /><router-outlet /></div>
+<div class="container mx-auto" *ngIf="isAuthenticated"><app-header /></div>
+<router-outlet />

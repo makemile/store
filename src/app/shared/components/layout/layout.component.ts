@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
+import { AuthServicesModule } from 'src/app/modules/auth/auth-services.module';
 
 @Component({
   selector: 'app-layout',
@@ -11,5 +12,9 @@ import { HeaderComponent } from '../header/header.component';
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
-
+  isAuthenticated = false;
+constructor(private authService: AuthServicesModule){}
+ngOnInit():void{
+this.isAuthenticated = this.authService.isAuthenticated();
+}
 }
