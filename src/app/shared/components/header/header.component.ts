@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject,signal} from '@angular/core';
-import { CartService } from '@/shared/services/cart.service';
+import { CartService } from '../../services/cart.service';
 import { RouterLinkWithHref, RouterLinkActive} from '@angular/router';
 
 @Component({
