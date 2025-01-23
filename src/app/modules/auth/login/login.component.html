@@ -1,1 +1,17 @@
 <p>login works!</p>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <app-form-input
+formControlName="email"
+label="email"
+placeHolder="Ingresa dirección de correo"
+type="text"
+/>
+<app-form-input
+formControlName="password"
+label="password"
+placeHolder="Ingresa password"
+type="text"
+/>
+<button type="submit" [disabled]="loginForm.invalid">Ingresar</button>
+<a [routerLink]="['/auth/register']">Registrarse</a>
+</form>
