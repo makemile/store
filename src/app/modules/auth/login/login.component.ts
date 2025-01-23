@@ -5,14 +5,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormInputComponent } from 'src/app/shared/form_input/form-input.component';
 import { userLogin } from 'src/app/shared/model/user.model';
 import { AuthServicesModule } from '../auth-services.module';
 
 @Component({
   selector: 'app-login',
-  imports: [FormInputComponent, ReactiveFormsModule],
+  imports: [FormInputComponent, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -33,7 +33,7 @@ export class LoginComponent {
         this.router.navigate(['']);
         },
         error: (error) => {
-          console.log('usuario no existe', error);
+          console.log('Usuario no registrado', error);
         },
         complete: () => {
           console.log('operacion exitosa');

@@ -6,19 +6,23 @@ import {
   user,
   userLogin,
 } from 'src/app/shared/model/user.model';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthServicesModule {
-  constructor(private http: HttpClient, private router: Router, private localStorage: StorageService) {}
+
+  constructor(private http: HttpClient, private router: Router, private localStorage: StorageService,   private ToastServices : ToastService) {}
 
   createUser(userData: user) {
     const url = 'https://api.escuelajs.co/api/v1/users/';
+    this.ToastServices.show('Has sido registrado exitosamente', 'success',3000);
     return this.http.post<user>(url, userData);
   }
 
@@ -28,6 +32,11 @@ export class AuthServicesModule {
       tap((resp) => {
        this.localStorage.setItem('access_token', resp.access_token);
        this.localStorage.setItem('refresh_token', resp.refresh_token);
+       this.ToastServices.show('Has iniciado sesión', 'success',3000);
+      }),
+      catchError((error) => {
+        this.ToastServices.show('Usario no registrado', 'error', 3000);
+        return throwError(() => error);
       })
     );
   }
