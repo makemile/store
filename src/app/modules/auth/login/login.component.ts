@@ -8,7 +8,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { FormInputComponent } from 'src/app/shared/form_input/form-input.component';
 import { userLogin } from 'src/app/shared/model/user.model';
-import { AuthServicesModule } from '../auth-services.module';
+import { AuthService} from '../auth-services.module';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ import { AuthServicesModule } from '../auth-services.module';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  constructor(private authService: AuthServicesModule, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),

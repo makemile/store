@@ -7,7 +7,8 @@ import {
 } from '@angular/forms';
 import { FormInputComponent } from "../../../shared/form_input/form-input.component";
 import { user } from 'src/app/shared/model/user.model';
-import { AuthServicesModule } from '../auth-services.module';
+import { AuthService
+ } from '../auth-services.module';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,7 +21,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   registerForm : FormGroup;
 
-  constructor(private authService: AuthServicesModule, private router: Router){
+  constructor(private authService: AuthService, private router: Router){
     this.registerForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
