@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormInputComponent } from "../../../shared/form_input/form-input.component";
-import { user } from 'src/app/shared/model/user.model';
+import { user } from 'src/app/shared/models/user.model';
 import { AuthService
  } from '../auth-services.module';
 import { Router } from '@angular/router';

@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { FormInputComponent } from 'src/app/shared/form_input/form-input.component';
-import { userLogin } from 'src/app/shared/model/user.model';
+import { userLogin } from 'src/app/shared/models/user.model';
 import { AuthService} from '../auth-services.module';
 
 @Component({

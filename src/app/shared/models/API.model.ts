@@ -8,4 +8,10 @@ export interface ApiEndpoints {
     create: string;
     details: string;
   };
+  categories:{
+    categories: string;
+  },
+  products:{
+    products: string
+  }
 }
