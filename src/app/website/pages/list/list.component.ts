@@ -6,14 +6,14 @@ import {
   signal,
   SimpleChanges,
 } from '@angular/core';
-import { ProductComponent } from '../../components/product/product.component';
+import { ProductComponent } from '../../../domains/products/components/product/product.component';
 import { CommonModule } from '@angular/common';
 import { RouterLinkWithHref } from '@angular/router';
-import { Product } from 'src/app/shared/models/product.model';
-import { CartService } from 'src/app/shared/services/cart.service';
-import { ProductService } from 'src/app/shared/services/product.service';
-import { CategoryService } from 'src/app/shared/services/category.service';
-import { Category } from 'src/app/shared/models/category.model';
+import { Product } from 'src/app/models/product.model';
+import { CartService } from 'src/app/website/services/cart.service';
+import { ProductService } from 'src/app/website/services/product.service';
+import { CategoryService } from 'src/app/website/services/category.service';
+import { Category } from 'src/app/models/category.model';
 
 @Component({
   selector: 'app-list',

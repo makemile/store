@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { ProductDetailComponent } from '@/products/pages/product-detail/product-detail.component';
+import { ProductDetailComponent } from 'src/app/website/pages/product-detail/product-detail.component';
 import { NotFoundComponent } from '@/info/pages/not-found/not-found.component';
-import { LayoutComponent } from './shared/components/layout/layout.component';
+import { LayoutComponent } from './website/layout/layout.component';
 import { AuthGuard} from './modules/auth/auth.guard';
 
 export const routes: Routes = [
@@ -13,9 +13,10 @@ export const routes: Routes = [
         path: '',
         canActivate:[AuthGuard],
         loadComponent: () =>
-          import('./domains/products/pages/list/list.component').then(
+          import('./website/pages/list/list.component').then(
             (m) => m.ListComponent
           ),
+          pathMatch: 'full'
       },
       {
         path: 'about',

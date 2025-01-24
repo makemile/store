@@ -6,9 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { FormInputComponent } from 'src/app/shared/form_input/form-input.component';
-import { userLogin } from 'src/app/shared/models/user.model';
-import { AuthService} from '../auth-services.module';
+import { FormInputComponent } from 'src/app/website/shared/components/form_input/form-input.component';
+import { userLogin } from 'src/app/models/user.model';
+import { AuthService} from '../../modules/auth/auth-services.module';
 
 @Component({
   selector: 'app-login',

@@ -5,10 +5,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FormInputComponent } from "../../../shared/form_input/form-input.component";
-import { user } from 'src/app/shared/models/user.model';
+import { FormInputComponent } from "../shared/components/form_input/form-input.component";
+import { user } from 'src/app/models/user.model';
 import { AuthService
- } from '../auth-services.module';
+ } from '../../modules/auth/auth-services.module';
 import { Router } from '@angular/router';
 
 @Component({

@@ -5,7 +5,7 @@ import {
   loginResponse,
   user,
   userLogin,
-} from 'src/app/shared/models/user.model';
+} from 'src/app/models/user.model';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
