@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Category } from '../model/category.model';
+import { Category } from '../models/category.model';
+import { environment } from 'src/app/core/constants/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Category } from '../model/category.model';
 export class CategoryService {
 private http = inject(HttpClient);
 getCategory(){
-  return this.http.get<Category[]>(`https://api.escuelajs.co/api/v1/categories`)
+  return this.http.get<Category[]>(`${environment.api.baseUrl}${environment.api.categories.categories}`)
 }
 
   constructor() { }

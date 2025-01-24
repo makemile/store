@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, signal } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/product.service';
-import { Product } from 'src/app/shared/model/product.model';
+import { Product } from 'src/app/shared/models/product.model';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,6 +15,8 @@ export class ProductDetailComponent {
   product = signal<Product | null>(null);
   cover = signal('')
   private productService = inject(ProductService);
+
+  constructor(private router:Router){}
 
   ngOnInit() {
     if (this.id) {
@@ -31,4 +34,7 @@ export class ProductDetailComponent {
   changeCover(newImg: string){
 this.cover.set(newImg);
   }
+
+  goToBack(){
+    this.router.navigate([''])  }
 }

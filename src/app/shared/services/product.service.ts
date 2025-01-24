@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Product } from '../model/product.model';
+import { Product } from '../models/product.model';
+import { environment } from 'src/app/core/constants/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ export class ProductService {
   private http = inject(HttpClient);
   constructor() {}
   getProducts(category_id?:string) {
-    const url = new URL( `https://api.escuelajs.co/api/v1/products`);
+    const url = new URL( `${environment.api.baseUrl}${environment.api.products.products}`);
     if(category_id){
        url.searchParams.set('categoryId',category_id)
     }
@@ -18,7 +19,7 @@ export class ProductService {
 
   getOne(id: string) {
     return this.http.get<Product>(
-      `https://api.escuelajs.co/api/v1/products/${id}`
+      `${environment.api.baseUrl}${environment.api.products.products}/${id}`
     );
   }
 }

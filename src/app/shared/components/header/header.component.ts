@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { RouterLinkWithHref, RouterLinkActive, Router } from '@angular/router';
-import { AuthServicesModule } from 'src/app/modules/auth/auth-services.module';
+import { AuthService} from 'src/app/modules/auth/auth-services.module';
 
 @Component({
   selector: 'app-header',
   imports: [CommonModule, RouterLinkWithHref, RouterLinkActive],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  constructor(private authService: AuthServicesModule, private router:Router) {}
+  constructor(private authService: AuthService, private router:Router) {}
   hideSiteMenu = signal(true);
   hideHeader = signal(false);
   private cartService = inject(CartService);

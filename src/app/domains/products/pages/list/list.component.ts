@@ -9,11 +9,11 @@ import {
 import { ProductComponent } from '../../components/product/product.component';
 import { CommonModule } from '@angular/common';
 import { RouterLinkWithHref } from '@angular/router';
-import { Product } from 'src/app/shared/model/product.model';
+import { Product } from 'src/app/shared/models/product.model';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
-import { Category } from 'src/app/shared/model/category.model';
+import { Category } from 'src/app/shared/models/category.model';
 
 @Component({
   selector: 'app-list',
@@ -31,7 +31,7 @@ export class ListComponent {
   private ProductService = inject(ProductService);
   private categoryServices = inject(CategoryService);
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
       this.getProducts();
   }
 

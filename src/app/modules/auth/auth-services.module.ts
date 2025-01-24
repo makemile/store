@@ -1,38 +1,54 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import {JwtHelperService} from '@auth0/angular-jwt';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import {
   loginResponse,
   user,
   userLogin,
-} from 'src/app/shared/model/user.model';
+} from 'src/app/shared/models/user.model';
 import { catchError, tap } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
 import { ToastService } from './toast.service';
+import { isPlatformBrowser } from '@angular/common';
+import { environment } from 'src/app/core/constants/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-
-export class AuthServicesModule {
-
-  constructor(private http: HttpClient, private router: Router, private localStorage: StorageService,   private ToastServices : ToastService) {}
+export class AuthService {
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(
+    this.isAuthenticated()
+  );
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private localStorage: StorageService,
+    private ToastServices: ToastService,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {}
 
   createUser(userData: user) {
-    const url = 'https://api.escuelajs.co/api/v1/users/';
-    this.ToastServices.show('Has sido registrado exitosamente', 'success',3000);
+    const url = `${environment.api.baseUrl}${environment.api.users.create}`;
+    this.ToastServices.show(
+      'Has sido registrado exitosamente',
+      'success',
+      3000
+    );
     return this.http.post<user>(url, userData);
   }
 
-  loginUser(userData: userLogin):Observable<loginResponse> {
-    const url = 'https://api.escuelajs.co/api/v1/auth/login';
+  loginUser(userData: userLogin): Observable<loginResponse> {
+    const url = `${environment.api.baseUrl}${environment.api.auth.login}`;
     return this.http.post<loginResponse>(url, userData).pipe(
       tap((resp) => {
-       this.localStorage.setItem('access_token', resp.access_token);
-       this.localStorage.setItem('refresh_token', resp.refresh_token);
-       this.ToastServices.show('Has iniciado sesión', 'success',3000);
+        console.log('Respuesta del login:', resp);
+        this.localStorage.setItem('access_token', resp.access_token);
+        this.localStorage.setItem('refresh_token', resp.refresh_token);
+        this.isAuthenticatedSubject.next(true);
+        this.ToastServices.show('Has iniciado sesión', 'success', 3000);
       }),
       catchError((error) => {
         this.ToastServices.show('Usario no registrado', 'error', 3000);
@@ -41,17 +57,28 @@ export class AuthServicesModule {
     );
   }
 
-  public isAuthenticated():boolean {
-    const token = this.localStorage.getItem('access_token');
+  private isTokenValid(token: string): boolean {
     const helper = new JwtHelperService();
-    const isExpired = helper.isTokenExpired(token);
-    return !isExpired;
-
+    return !helper.isTokenExpired(token);
   }
 
-  logout(){
+  public isAuthenticated(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = this.localStorage.getItem('access_token');
+      return token ? this.isTokenValid(token) : false;
+    }
+    return false;
+  }
+
+  logout(): void {
     this.localStorage.removeItem('access_token');
     this.localStorage.removeItem('refresh_token');
+    this.isAuthenticatedSubject.next(false);
     this.router.navigate(['/auth/login']);
+  }
+
+  updateAuthStatus(): void {
+    const isAuthenticated: boolean = this.isAuthenticated();
+    this.isAuthenticatedSubject.next(isAuthenticated);
   }
 }
