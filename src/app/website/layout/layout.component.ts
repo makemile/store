@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from '../shared/components/header/header.component';
+import { HeaderComponent } from './header/header.component';
 import { AuthService } from 'src/app/modules/auth/auth-services.module';
-import { ToastComponent } from '../shared/components/toast/toast.component';
+import { ToastComponent } from '../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-layout',

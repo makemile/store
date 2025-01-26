@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FormInputComponent } from "../shared/components/form_input/form-input.component";
+import { FormInputComponent } from "../../shared/components/form_input/form-input.component";
 import { user } from 'src/app/models/user.model';
 import { AuthService
  } from '../../modules/auth/auth-services.module';
