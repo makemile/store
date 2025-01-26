@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, signal } from '@angular/core';
-import { ProductService } from 'src/app/shared/services/product.service';
-import { Product } from 'src/app/shared/models/product.model';
+import { ProductService } from 'src/app/website/services/product.service';
+import { Product } from 'src/app/models/product.model';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({

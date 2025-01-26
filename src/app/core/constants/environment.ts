@@ -1,4 +1,4 @@
-import { ApiEndpoints } from "src/app/shared/models/API.model";
+import { ApiEndpoints } from "src/app/models/API.model";
 
 export const environment: {
   production:boolean; api: ApiEndpoints
