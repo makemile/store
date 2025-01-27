@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from './modules/auth/auth-services.module';
 
@@ -12,10 +12,12 @@ import { AuthService } from './modules/auth/auth-services.module';
   `,
   standalone: true,
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'store';
   isLoading = true;
   constructor(private authService: AuthService, private router: Router) {}
+
+
   ngOnInit(): void {
     this.authService.updateAuthStatus();
     this.authService.isAuthenticated$.subscribe((authenticated) => {

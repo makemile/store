@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StorageService } from './storage.service';
+import { StorageService } from './storageToken.service';
 import { Injectable } from '@angular/core';
 
 @Injectable()
