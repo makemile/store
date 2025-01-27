@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { CartService } from '../../services/cart.service';
+import { CartService } from '../../../website/services/cart.service';
 import { RouterLinkWithHref, RouterLinkActive, Router } from '@angular/router';
 import { AuthService} from 'src/app/modules/auth/auth-services.module';
 

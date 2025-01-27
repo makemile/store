@@ -9,7 +9,7 @@ import {
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { StorageService } from './storage.service';
+import { StorageService } from './storageToken.service';
 import { ToastService } from './toast.service';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from 'src/app/core/constants/environment';
@@ -44,11 +44,10 @@ export class AuthService {
     const url = `${environment.api.baseUrl}${environment.api.auth.login}`;
     return this.http.post<loginResponse>(url, userData).pipe(
       tap((resp) => {
-        console.log('Respuesta del login:', resp);
         this.localStorage.setItem('access_token', resp.access_token);
         this.localStorage.setItem('refresh_token', resp.refresh_token);
-        this.isAuthenticatedSubject.next(true);
         this.ToastServices.show('Has iniciado sesión', 'success', 3000);
+        this.isAuthenticatedSubject.next(true);
       }),
       catchError((error) => {
         this.ToastServices.show('Usario no registrado', 'error', 3000);

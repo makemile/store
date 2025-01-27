@@ -6,7 +6,7 @@ import {
   signal,
   SimpleChanges,
 } from '@angular/core';
-import { ProductComponent } from '../../../domains/products/components/product/product.component';
+import { ProductComponent } from '../../product/product.component';
 import { CommonModule } from '@angular/common';
 import { RouterLinkWithHref } from '@angular/router';
 import { Product } from 'src/app/models/product.model';
