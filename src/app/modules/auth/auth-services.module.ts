@@ -21,6 +21,8 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(
     this.isAuthenticated()
   );
+  private isLoadingSubject = new BehaviorSubject<boolean>(true);
+  isLoading$ = this.isLoadingSubject.asObservable();
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   constructor(
     private http: HttpClient,
@@ -29,6 +31,12 @@ export class AuthService {
     private ToastServices: ToastService,
     @Inject(PLATFORM_ID) private platformId: object
   ) {}
+
+  initializeAuthState():void {
+    const isAuthenticated = this.isAuthenticated();
+    this.isAuthenticatedSubject.next(isAuthenticated);
+    this.isLoadingSubject.next(false);
+  }
 
   createUser(userData: user) {
     const url = `${environment.api.baseUrl}${environment.api.users.create}`;
@@ -42,6 +50,7 @@ export class AuthService {
 
   loginUser(userData: userLogin): Observable<loginResponse> {
     const url = `${environment.api.baseUrl}${environment.api.auth.login}`;
+
     return this.http.post<loginResponse>(url, userData).pipe(
       tap((resp) => {
         this.localStorage.setItem('access_token', resp.access_token);
@@ -74,10 +83,5 @@ export class AuthService {
     this.localStorage.removeItem('refresh_token');
     this.isAuthenticatedSubject.next(false);
     this.router.navigate(['/auth/login']);
-  }
-
-  updateAuthStatus(): void {
-    const isAuthenticated: boolean = this.isAuthenticated();
-    this.isAuthenticatedSubject.next(isAuthenticated);
   }
 }
