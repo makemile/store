@@ -1,32 +1,28 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from './modules/auth/auth-services.module';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { AuthService } from "./modules/auth/auth-services.module";
 
 @Component({
-  selector: 'app-root',
-  imports: [CommonModule, RouterOutlet],
-  template: `
-    <div *ngIf="isLoading">Cargando...</div>
-    <router-outlet></router-outlet>
-  `,
-  standalone: true,
+    selector: "app-root",
+    imports: [CommonModule, RouterOutlet],
+    template: `
+        <div *ngIf="isLoading; else content">Cargando...</div>
+        <ng-template #content>
+            <router-outlet></router-outlet>
+        </ng-template>
+    `,
+    standalone: true,
 })
-export class AppComponent implements OnInit{
-  title = 'store';
-  isLoading = true;
-  constructor(private authService: AuthService, private router: Router) {}
+export class AppComponent implements OnInit {
+    title = "store";
+    isLoading = true;
+    constructor(private authService: AuthService) {}
 
-
-  ngOnInit(): void {
-    this.authService.updateAuthStatus();
-    this.authService.isAuthenticated$.subscribe((authenticated) => {
-      if (authenticated) {
-        this.router.navigate(['']);
-      } else {
-        this.router.navigate(['/auth/login']);
-      }
-      this.isLoading = false;
-    });
-  }
+    ngOnInit(): void {
+        this.authService.initializeAuthState();
+        this.authService.isAuthenticated$.subscribe(() => {
+            this.isLoading = false;
+        });
+    }
 }

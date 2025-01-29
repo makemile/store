@@ -12,10 +12,11 @@ import { Injectable } from '@angular/core';
 
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private localStorage:StorageService){}
+
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     const accessToken = this.localStorage.getItem('access_token');
     if (accessToken) {
       const clonedRequest = req.clone({

@@ -21,9 +21,7 @@ export class StorageService {
   setItem(key: string, value: string): void {
     if (this.isLocalStorageAvailable) {
       localStorage.setItem(key, value);
-    } else {
-      console.log('localStorage no disponible');
-    }
+    } 
   }
 
   removeItem(key: string): void {

@@ -3,6 +3,7 @@ import { NotFoundComponent } from "@/info/pages/not-found/not-found.component";
 import { AuthGuard } from "../guards/auth.guard";
 import { LayoutComponent } from "./layout/layout.component";
 import { NgModule } from "@angular/core";
+import { ProductDetailComponent } from "./pages/product-detail/product-detail.component";
 
 export const routes: Routes = [
     {
@@ -29,10 +30,7 @@ export const routes: Routes = [
             {
                 path: "product/:id",
                 canActivate: [AuthGuard],
-                loadChildren: () =>
-                    import(
-                        "./pages/product-detail/product-detail.component"
-                    ).then((m) => m.ProductDetailComponent),
+                component: ProductDetailComponent,
                 data: {
                     preload: true,
                 },
