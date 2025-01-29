@@ -10,7 +10,7 @@ export class ProductService {
   private http = inject(HttpClient);
   constructor() {}
   getProducts(category_id?:string) {
-    const url = new URL( `${environment.api.baseUrl}${environment.api.products.products}`);
+    const url = new URL( `${environment.API_URL}/products`);
     if(category_id){
        url.searchParams.set('categoryId',category_id)
     }
@@ -19,7 +19,7 @@ export class ProductService {
 
   getOne(id: string) {
     return this.http.get<Product>(
-      `${environment.api.baseUrl}${environment.api.products.products}/${id}`
+      `${environment.API_URL}/products/${id}`
     );
   }
 }

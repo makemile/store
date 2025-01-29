@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import {jwtDecode} from'jwt-decode'
 import { loginResponse, user, userLogin } from "src/app/models/user.model";
-import { RxJsDebug } from "src/app/models/debug.model";
 import { catchError, tap } from "rxjs/operators";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { Router } from "@angular/router";
@@ -10,15 +10,12 @@ import { StorageService } from "./storageToken.service";
 import { ToastService } from "./toast.service";
 import { isPlatformBrowser } from "@angular/common";
 import { environment } from "src/app/core/constants/environment";
-import { debug, setRxjsDebugLevel} from '../../shared/RXJS/debug.operator';
 
 @Injectable({
     providedIn: "root",
 })
 export class AuthService {
-    private isAuthenticatedSubject = new BehaviorSubject<boolean>(
-        this.isAuthenticated()
-    );
+    private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
     private isLoadingSubject = new BehaviorSubject<boolean>(true);
     isLoading$ = this.isLoadingSubject.asObservable();
     isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -28,9 +25,7 @@ export class AuthService {
         private localStorage: StorageService,
         private ToastServices: ToastService,
         @Inject(PLATFORM_ID) private platformId: object
-    ) {
-        setRxjsDebugLevel(RxJsDebug.DEBUG);
-    }
+    ) {}
 
     initializeAuthState(): void {
         const isAuthenticated = this.isAuthenticated();
@@ -39,7 +34,7 @@ export class AuthService {
     }
 
     createUser(userData: user) {
-        const url = `${environment.api.baseUrl}${environment.api.users.create}`;
+        const url = `${environment.API_URL}/users/`;
         this.ToastServices.show(
             "Has sido registrado exitosamente",
             "success",
@@ -49,21 +44,30 @@ export class AuthService {
     }
 
     loginUser(userData: userLogin): Observable<loginResponse> {
-        const url = `${environment.api.baseUrl}${environment.api.auth.login}`;
-        debug(RxJsDebug.INFO, 'Mapped users')
+        const url = `${environment.API_URL}/auth/login/`;
         return this.http.post<loginResponse>(url, userData).pipe(
             tap((resp) => this.handleSuccesfulLogin(resp)),
-            debug(RxJsDebug.DEBUG, 'Mapped users'),
-            catchError((error) => this.handleLoginError(error)),
-            
+            catchError((error) => this.handleLoginError(error))
         );
     }
 
+    refreshToken() {
+        const refreshToken = this.localStorage.getRefreshToken();
+        const url = "https://api.escuelajs.co/api/v1/auth/refresh-token";
+        return this.http.post<{ access_token: string }>(url, {
+            refreshToken: refreshToken,
+        }).pipe(
+            tap((res) => {
+                this.localStorage.setAccessToken(res.access_token)
+            })
+        )
+    }
+
     private handleSuccesfulLogin(resp: loginResponse): void {
-        this.localStorage.setItem("access_token", resp.access_token);
-        this.localStorage.setItem("refresh_token", resp.refresh_token);
+        this.localStorage.setItem(resp.access_token);
+        this.localStorage.setItem(resp.refresh_token);
         this.ToastServices.show("Has iniciado sesión", "success", 3000);
-        this.isAuthenticatedSubject.next(true);
+        // this.isAuthenticatedSubject.next(true);
     }
 
     private handleLoginError(error: string): Observable<never> {
@@ -73,21 +77,50 @@ export class AuthService {
 
     private isTokenValid(token: string): boolean {
         const helper = new JwtHelperService();
+        console.log(helper.isTokenExpired(token));
         return !helper.isTokenExpired(token);
     }
 
-    public isAuthenticated(): boolean {
-        if (isPlatformBrowser(this.platformId)) {
-            const token = this.localStorage.getItem("access_token");
-            return token ? this.isTokenValid(token) : false;
+    isValidRefreshToken(){
+        const token = this.localStorage.getRefreshToken();
+        if(!token){
+            return false;
+        }
+        const decodeToken = jwtDecode(token);
+        
+        if(decodeToken && decodeToken?.exp){
+          const tokenDate = new Date(0);
+          tokenDate.setUTCSeconds(decodeToken.exp);
+          const today = new Date();
+          return tokenDate.getTime() > today.getTime();
         }
         return false;
     }
 
+    public isAuthenticated(): boolean {
+        if (isPlatformBrowser(this.platformId)) {
+            const token = this.localStorage.getItem();
+            console.log("token", token ? this.isTokenValid(token) : false);
+            return token ? this.isTokenValid(token) : false;
+        }
+        console.log("false");
+        return false;
+    }
+
     logout(): void {
-        this.localStorage.removeItem("access_token");
-        this.localStorage.removeItem("refresh_token");
+        this.localStorage.clear();
         this.isAuthenticatedSubject.next(false);
         this.router.navigate(["/auth/login"]);
+    }
+
+    getProfile() {
+        return this.http.get<user>(
+            "https://api.escuelajs.co/api/v1/auth/profile",
+            {
+                headers: {
+                    Authorization: `Bearer ${this.localStorage.getItem()}`,
+                },
+            }
+        );
     }
 }

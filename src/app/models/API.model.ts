@@ -14,4 +14,7 @@ export interface ApiEndpoints {
   products:{
     products: string
   }
+  profile:{
+    profile: string;
+  }
 }

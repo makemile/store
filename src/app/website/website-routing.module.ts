@@ -1,5 +1,5 @@
 import { RouterModule, Routes } from "@angular/router";
-import { NotFoundComponent } from "@/info/pages/not-found/not-found.component";
+import { NotFoundComponent } from "@/domains/info/pages/not-found/not-found.component";
 import { AuthGuard } from "../guards/auth.guard";
 import { LayoutComponent } from "./layout/layout.component";
 import { NgModule } from "@angular/core";
@@ -25,6 +25,14 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import("../domains/info/pages/about/about.component").then(
                         (m) => m.AboutComponent
+                    ),
+            },
+            {
+                path: "profile",
+                canActivate: [AuthGuard],
+                loadComponent: () =>
+                    import("./pages/profile/profile.component").then(
+                        (m) => m.ProfileComponent
                     ),
             },
             {

@@ -13,7 +13,9 @@ export class AuthGuard {
     canActivate() {
         const isAuthenticated$ = this.authService.isAuthenticated$;
         const isLoading$ = this.authService.isLoading$;
-        combineLatest([isAuthenticated$, isLoading$])
+
+        
+            combineLatest([isAuthenticated$, isLoading$])
             .pipe(
                 filter(
                     ([isAuthenticated, isLoading]: [boolean, boolean]) =>
@@ -23,5 +25,7 @@ export class AuthGuard {
             .subscribe(([isAuthenticated]) => {
                 isAuthenticated;
             });
-    }
+    
+        }
+       
 }

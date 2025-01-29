@@ -3,6 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CartService } from '../../../website/services/cart.service';
 import { RouterLinkWithHref, RouterLinkActive, Router } from '@angular/router';
 import { AuthService} from 'src/app/modules/auth/auth-services.module';
+import { user } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,13 @@ export class HeaderComponent {
   private cartService = inject(CartService);
   cart = this.cartService.cart;
   total = this.cartService.total;
+  user: user | null = null;
+
+  ngOnInit(){
+    this.authService.getProfile()
+    .subscribe(resp => this.user = resp)
+
+  }
 
   toogleSideMenu() {
     this.hideSiteMenu.update((prevState) => !prevState);

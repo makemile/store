@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '../../website/login/login.component';
+import { LoginComponent } from 'src/app/website/pages/login/login.component';
 import { RegisterComponent } from '../../website/register/register.component';
 import {
   HTTP_INTERCEPTORS,
