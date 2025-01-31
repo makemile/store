@@ -4,8 +4,10 @@ import { AuthGuard } from "../guards/auth.guard";
 import { LayoutComponent } from "./layout/layout.component";
 import { NgModule } from "@angular/core";
 import { ProductDetailComponent } from "./pages/product-detail/product-detail.component";
+import { redirectAuthGuard } from "../guards/redirect.guard";
 
 export const routes: Routes = [
+    
     {
         path: "",
         component: LayoutComponent,
@@ -17,7 +19,6 @@ export const routes: Routes = [
                     import("./pages/list/list.component").then(
                         (m) => m.ListComponent
                     ),
-                pathMatch: "full",
             },
             {
                 path: "about",
@@ -35,15 +36,18 @@ export const routes: Routes = [
                     preload: true,
                 },
             },
-            {
-                path: "auth",
-                loadChildren: () =>
-                    import("../modules/auth/auth-routing.module").then(
-                        (m) => m.AuthRoutingModule
-                    ),
-            },
+           
         ],
     },
+    {
+        path: "auth",
+        canActivate:[redirectAuthGuard],
+        loadChildren: () =>
+            import("../modules/auth/auth-routing.module").then(
+                (m) => m.AuthRoutingModule
+            ),
+    },
+    
     {
         path: "**",
         component: NotFoundComponent,

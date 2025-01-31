@@ -28,7 +28,7 @@ export class LoginComponent {
   onSubmit() {
     const userData: userLogin = this.loginForm.value;
     if (Object.values(this.loginForm.value).every((value) => value !== '')) {
-      this.authService.loginUser(userData).subscribe({
+      this.authService.login(userData).subscribe({
         next: () => {
         this.router.navigate(['']);
         },

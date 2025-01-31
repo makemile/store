@@ -39,10 +39,10 @@ export class RegisterComponent {
                 (value) => value !== ""
             )
         ) {
-            this.authService.createUser(userData).subscribe({
-                next: (user) => {
+            this.authService.registerAndLogin(userData).subscribe({
+                next: () => {
                     console.log(
-                        `Bienvenido, ${user.name}! Tu cuenta ha sido creada.`
+                        `Bienvenido! Tu cuenta ha sido creada.`
                     );
                     this.router.navigate(["/auth/login"]);
                 },

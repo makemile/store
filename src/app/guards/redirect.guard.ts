@@ -1,19 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { StorageService } from "../modules/auth/storageToken.service";
+import { tokenService } from "../modules/auth/token.service";
 
 @Injectable({
     providedIn: "root",
 })
 export class redirectAuthGuard {
-    constructor(
-        private router: Router,
-        private tokenService: StorageService
-    ) {}
+    constructor(private router: Router, private token: tokenService) {}
 
     canActivate() {
-        const token = this.tokenService.getItem('access_token');
-        if (token) {
+        const isValidToken = this.token.isValidRefreshToken();
+        if (isValidToken) {
             this.router.navigate([""]);
         }
         return true;

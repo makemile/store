@@ -6,6 +6,7 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { AuthInterceptor } from './jwt.interceptor';
+import { redirectAuthGuard } from 'src/app/guards/redirect.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
